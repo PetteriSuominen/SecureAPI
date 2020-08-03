@@ -1,15 +1,17 @@
-import React, { useEffect, useState, useCallback } from 'react';
+import React, { useEffect, useCallback } from 'react';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import { UserAgentApplication } from 'msal';
 import axios from 'axios';
 import Welcome from './components/Welcome';
 import './App.css';
 import { msalConfig, loginRequest, tokenRequest } from './authConfig';
+import { setUserAccount } from './store/actions/auth';
+import { useDispatch } from 'react-redux';
 
 const userAgentApplication = new UserAgentApplication(msalConfig);
 
 const App = () => {
-  const [account, setAccount] = useState(null);
+  const dispatch = useDispatch();
 
   const callAPI = token => {
     axios
@@ -46,22 +48,17 @@ const App = () => {
 
   useEffect(() => {
     let account = userAgentApplication.getAccount();
-
     if (account) {
-      logInUser(account);
+      dispatch(setUserAccount(account));
       getAccessToken();
     }
-  }, [getAccessToken]);
-
-  const logInUser = account => {
-    setAccount(account);
-  };
+  }, [getAccessToken, dispatch]);
 
   const login = () => {
     userAgentApplication
       .loginPopup({ scopes: loginRequest.scopes, prompt: 'select_account' })
       .then(response => {
-        logInUser(response.account);
+        dispatch(setUserAccount(response.account));
         getAccessToken();
       })
       .catch(error => console.log(error));
@@ -76,7 +73,7 @@ const App = () => {
       <div className="App">
         <Switch>
           <Route path="/">
-            <Welcome onLogin={login} onLogOut={logout} userAccount={account} />
+            <Welcome onLogin={login} onLogOut={logout} />
           </Route>
         </Switch>
       </div>
