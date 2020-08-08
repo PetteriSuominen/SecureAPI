@@ -1,5 +1,6 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
+import Button from './common/Button';
 
 const Welcome = ({ onLogin, onLogOut }) => {
   const userAccount = useSelector(state => state.auth.account);
@@ -7,14 +8,14 @@ const Welcome = ({ onLogin, onLogOut }) => {
     return (
       <div>
         <p>Hello, {userAccount.name}!</p>
-        <button onClick={onLogOut}>Log out</button>
+        <Button onClick={onLogOut}>Log out</Button>
       </div>
     );
   }
   return (
     <div>
       <p>Front page</p>
-      <button onClick={onLogin}>Log in</button>
+      <Button onClick={onLogin}>Log in</Button>
     </div>
   );
 };
