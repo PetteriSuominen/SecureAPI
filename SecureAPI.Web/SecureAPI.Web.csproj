@@ -5,6 +5,6 @@
     <UserSecretsId>c8b6c9f1-8825-4a9e-b1c3-c62d4ca89aab</UserSecretsId>
   </PropertyGroup>
   <ItemGroup>
-    <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="3.1.6" />
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="3.1.18" />
   </ItemGroup>
 </Project>
